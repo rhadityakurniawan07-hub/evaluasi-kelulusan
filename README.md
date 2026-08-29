@@ -1,24 +1,34 @@
 ﻿# Simple Blog
 
-Simple Blog adalah aplikasi web sederhana untuk mengelola artikel dengan fitur CRUD (Create, Read, Update, Delete). Project ini dibuat dengan HTML, CSS, dan JavaScript serta memanfaatkan API publik dari JSONPlaceholder untuk simulasi data artikel.
+## Cara Kerja
 
-## Fitur
+Simple Blog adalah website sederhana untuk menampilkan dan menambahkan artikel menggunakan HTML, CSS, dan JavaScript.
 
-- Menampilkan daftar artikel
-- Menambahkan artikel baru
-- Mengedit artikel yang sudah ada
-- Menghapus artikel
-- Menyimpan data ke localStorage agar tetap tersedia setelah refresh halaman
-- Toggle tema gelap/terang
-- Loading state dan handling error saat mengambil data
+### 1. HTML
+HTML digunakan untuk membuat struktur halaman, seperti:
+- Form tambah artikel
+- Judul artikel
+- Isi artikel
+- Daftar artikel
 
-## Teknologi yang Digunakan
+### 2. CSS
+CSS digunakan untuk mengatur tampilan website agar lebih rapi, modern, dan mudah digunakan.
 
-- HTML5
-- CSS3
-- JavaScript ES6
-- JSONPlaceholder API
-- LocalStorage browser
+### 3. JavaScript
+JavaScript digunakan untuk:
+- Mengambil data artikel
+- Menampilkan artikel ke halaman
+- Menambahkan artikel melalui form
+- Menampilkan pesan loading
+- Menampilkan pesan error jika terjadi masalah
+
+### 4. Alur Website
+1. Website dibuka.
+2. JavaScript mengambil data artikel.
+3. Data artikel ditampilkan pada bagian **Daftar Artikel**.
+4. Pengguna dapat mengisi form untuk menambahkan artikel.
+5. Setelah form dikirim, artikel diproses dan ditampilkan.
+6. Jika terjadi kesalahan, pesan error akan ditampilkan.
 
 ## Struktur Project
 
@@ -31,56 +41,4 @@ evaluasi-kelulusan/
 ├── package.json
 ├── package-lock.json
 ├── README.md
-├── .gitignore
-└── node_modules/
-```
-
-## Cara Menjalankan Project
-
-### 1. Clone repository
-
-```bash
-git clone https://github.com/username/evaluasi-kelulusan.git
-cd evaluasi-kelulusan
-```
-
-### 2. Buka file HTML langsung
-
-Anda dapat membuka file `Simple Blog/index.html` secara langsung di browser.
-
-Atau jalankan server lokal agar lebih aman dan stabil:
-
-```bash
-cd "Simple Blog"
-python -m http.server 8000
-```
-
-Lalu buka browser ke:
-
-```text
-http://localhost:8000
-```
-
-### 3. Jika ingin memakai server Node.js
-
-```bash
-npx serve .
-```
-
-## Alur Kerja Aplikasi
-
-1. Halaman dibuka.
-2. JavaScript mengambil data artikel dari API JSONPlaceholder.
-3. Data ditampilkan ke dalam daftar artikel.
-4. User dapat menambah artikel baru melalui form.
-5. User dapat mengedit artikel dengan tombol Edit.
-6. User dapat menghapus artikel dengan tombol Hapus.
-7. Data disimpan ke localStorage agar tetap ada meskipun halaman direfresh.
-
-## Catatan
-
-Project ini merupakan frontend statis dan tidak menggunakan database backend. Data artikel bersifat simulasi dan diambil dari API public, kemudian disimpan sementara di browser.
-
-## Lisensi
-
-Project ini dibuat untuk kebutuhan pembelajaran dan pengembangan frontend dasar.
+└── .gitignore
