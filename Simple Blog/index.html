@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div>
+                    <h1>Simple Blog</h1>
+                    <p>CRUD Artikel dengan JSONPlaceholder</p>
+                </div>
+                <button id="themeBtn" class="theme-btn">🌙 Gelap</button>
+            </div>
+        </header>
+
+        <section class="form-section">
+            <h2 id="formTitle">Tambah Artikel</h2>
+            <form id="articleForm">
+                <input 
+                    type="text" 
+                    id="title" 
+                    placeholder="Judul artikel" 
+                    required
+                >
+                <textarea 
+                    id="body" 
+                    placeholder="Isi artikel" 
+                    required
+                ></textarea>
+                <button type="submit" id="submitBtn">Tambah Artikel</button>
+                <button 
+                    type="button" 
+                    id="cancelBtn" 
+                    class="cancel" 
+                    hidden
+                >
+                    Batal Edit
+                </button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Daftar Artikel</h2>
+            <p id="loading">Memuat artikel...</p>
+            <p id="error"></p>
+            <div id="articles"></div>
+        </section>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
