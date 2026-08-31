@@ -1,12 +1,9 @@
-// Alamat API untuk data artikel
 const API = "https://jsonplaceholder.typicode.com/posts";
 
-// Menyimpan artikel, ID edit, dan ID artikel baru
 let articles = [];
 let editId = null;
 let nextId = 6;
 
-// Mengambil elemen HTML
 const form = document.getElementById("articleForm");
 const title = document.getElementById("title");
 const body = document.getElementById("body");
@@ -18,14 +15,12 @@ const submitBtn = document.getElementById("submitBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 const themeBtn = document.getElementById("themeBtn");
 
-// Mengatur tema yang tersimpan
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "dark") {
     document.body.classList.add("dark");
     themeBtn.textContent = "☀️ Terang";
 }
 
-// Tombol mengganti terang/gelap
 themeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark");
     const darkMode = document.body.classList.contains("dark");
@@ -33,19 +28,19 @@ themeBtn.addEventListener("click", () => {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
 });
 
-// Mengambil artikel dari Local Storage atau API
 async function getArticles() {
     try {
         const savedArticles = localStorage.getItem("my_articles");
-
+        
         if (savedArticles) {
             articles = JSON.parse(savedArticles);
             const savedNextId = localStorage.getItem("nextId");
             if (savedNextId) nextId = parseInt(savedNextId, 10);
         } else {
             const response = await fetch(API);
-            if (!response.ok) throw new Error("Gagal mengambil data artikel.");
-
+            if (!response.ok) {
+                throw new Error("Gagal mengambil data artikel.");
+            }
             const data = await response.json();
             articles = data.slice(0, 5);
             nextId = 6;
@@ -60,13 +55,11 @@ async function getArticles() {
     }
 }
 
-// Menyimpan artikel ke Local Storage
 function saveToLocalStorage() {
     localStorage.setItem("my_articles", JSON.stringify(articles));
     localStorage.setItem("nextId", nextId.toString());
 }
 
-// Menampilkan artikel ke halaman
 function renderArticles() {
     articlesBox.innerHTML = "";
 
@@ -88,7 +81,6 @@ function renderArticles() {
     });
 }
 
-// Menangani form tambah atau edit
 form.addEventListener("submit", async event => {
     event.preventDefault();
 
@@ -102,7 +94,6 @@ form.addEventListener("submit", async event => {
         return;
     }
 
-    // Jika editId ada  edit,tambah
     if (editId) {
         await editArticle(editId, data);
     } else {
@@ -110,7 +101,6 @@ form.addEventListener("submit", async event => {
     }
 });
 
-// Menambahkan artikel baru menggunakan POST
 async function addArticle(data) {
     try {
         await fetch(API, {
@@ -123,11 +113,14 @@ async function addArticle(data) {
             })
         });
 
-        articles.push({
-            id: nextId++,
+        const newArticle = {
+            id: nextId,
             title: data.title,
             body: data.body
-        });
+        };
+
+        nextId++;
+        articles.push(newArticle);
 
         saveToLocalStorage();
         renderArticles();
@@ -137,7 +130,6 @@ async function addArticle(data) {
     }
 }
 
-// Memilih artikel yang akan diedit
 function startEdit(id) {
     const article = articles.find(article => article.id === id);
     if (!article) return;
@@ -153,14 +145,13 @@ function startEdit(id) {
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// Mengedit artikel menggunakan PUT
 async function editArticle(id, data) {
     try {
         await fetch(`${API}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                id,
+                id: id,
                 title: data.title,
                 body: data.body,
                 userId: 1
@@ -168,9 +159,12 @@ async function editArticle(id, data) {
         });
 
         const index = articles.findIndex(article => article.id === id);
-
         if (index !== -1) {
-            articles[index] = { id, ...data };
+            articles[index] = {
+                id: id,
+                title: data.title,
+                body: data.body
+            };
         }
 
         saveToLocalStorage();
@@ -181,17 +175,18 @@ async function editArticle(id, data) {
     }
 }
 
-// Menghapus artikel menggunakan DELETE
 async function deleteArticle(id) {
     const article = articles.find(article => article.id === id);
     if (!article) return;
 
-    if (!confirm("Apakah kamu yakin ingin menghapus artikel ini?")) return;
+    const yakin = confirm("Apakah kamu yakin ingin menghapus artikel ini?");
+    if (!yakin) return;
 
     try {
         await fetch(`${API}/${id}`, { method: "DELETE" });
 
         articles = articles.filter(article => article.id !== id);
+
         saveToLocalStorage();
         renderArticles();
     } catch (err) {
@@ -199,10 +194,8 @@ async function deleteArticle(id) {
     }
 }
 
-// Tombol Batal untuk membatalkan edit
 cancelBtn.addEventListener("click", resetForm);
 
-// Mengembalikan form ke kondisi awal
 function resetForm() {
     editId = null;
     form.reset();
